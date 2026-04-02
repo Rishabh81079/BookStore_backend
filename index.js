@@ -30,13 +30,27 @@ app.get("/book/:id",(req,res)=>{
     res.send(booker)
 })
 
+app.get("/books",(req,res)=>{
+    const id = parseInt( req.query.id)
+    console.log(id);
+
+    const booker = bookStore.filter(data=> data.id=== id)
+    if(!booker){
+    return res.status(404).send("Book not found")
+}
+    res.send(booker)
+})
 
 app.post("/book",(req,res)=>{
     console.log(req.body);
-    
+    try{
     bookStore.push(req.body)
     res.status(201)
     res.send("Data saved successfully")
+    }
+    catch(err){
+        res.send("Error:" + err)
+    }
 })
 
 
@@ -86,8 +100,10 @@ app.patch("/book/:id", (req, res) => {
         book.author = req.body.author
     }
 
-    res.send(book)
+    res.send("updated sucessfully")
 })
+
+
 
 
 
@@ -102,3 +118,13 @@ app.listen(1234,()=>{
     console.log("Hello Backend Port 1234");
     
 })
+
+
+
+
+
+
+
+
+
+
